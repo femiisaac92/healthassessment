@@ -75,7 +75,7 @@ namespace Assessment.Health
             }
 
             app.UseCors(options =>
-                 options.WithOrigins("http://localhost:3000")
+                 options.WithOrigins("http://localhost:3000", "https://localhost:44356")
                  .AllowAnyHeader()
                  .AllowAnyMethod());
 
@@ -84,7 +84,11 @@ namespace Assessment.Health
             log.AddSerilog();
 
             //app.ConfigureHealthCheck();
-
+            //Static Files
+            app.UseCookiePolicy();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            //End Static Files
 
             app.UseRouting();
 
