@@ -24,12 +24,31 @@
         }
         PostCall("https://healthassessmentapi.herokuapp.com/api/Account/authenticate",
             {
-                "email": "superadmin@gmail.com",
-                "password": "Password@123"
+                "email": username,
+                "password": password
             }).success(function (data) {
+                if (data.succeeded === true) {
+                    var username = data.data.userName;
+                    var email = data.data.email;
+                    var token = data.data.jwToken;
+                    var refreshToken = data.data.refreshToken;
+                    if (typeof (Storage) !== "undefined") {
+                        localStorage.setItem("token", token);
+                        localStorage.setItem("refreshToken", refreshToken);
+                        localStorage.setItem("username", username);
+                        localStorage.setItem("email", email);
+                        document.location.href="home.html"
+                        // Code for localStorage/sessionStorage.
+                    } else {
+                        alert("Sorry Browser not supported")
+                    }
+                } else {
+                    $(".error_message").html("<font color=red>Error! Username /or password not found</font>");
+                }
                 // treat the READUSERS data returned
             }).fail(function (sender, message, details) {
-                alert("Sorry, something went wrong!");
+                alert("Sorry, no account registered with this crediential");
+                $(".error_message").html("<font color=red>Error! Username /or password not found</font>");
             });
     });
 });
