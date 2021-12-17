@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Assessment.Health.Controllers
@@ -34,6 +35,12 @@ namespace Assessment.Health.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             return Ok(await Mediator.Send(new GetPatientByIdQuery { Id = id }));
+        }
+
+        [HttpGet("search/{name}")]
+        public async Task<IActionResult> GetBySearchName(string name)
+        {
+            return Ok(await Mediator.Send(new GetAllPatientQuery()));
         }
 
         [HttpDelete("{id}")]

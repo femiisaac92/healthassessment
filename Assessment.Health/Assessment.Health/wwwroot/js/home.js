@@ -47,14 +47,48 @@ $(function () {
             $(".error_message").html("<font color='red'>All fields required</font>");
             return;
         }
+        $(this).prop('disabled', true);
         PostCall("https://healthassessmentapi.herokuapp.com/api/v1/Patient/", data)
             .success(function (data) {
                 $("#patientname").val(""); $("#phonenumber").val(""); $("#dateofbirth").val("");
                 $("#title").val(""); $("#gender").val(""); $("textarea#contact").val("");
                 $(".error_message").html("<font color='green'>Save Successfully</font>");
+                $(this).prop('disabled', false);
             }).fail(function (sender, message, details) {
                 $(".error_message").html("<font color=red>Error! not save</font>");
+                $(this).prop('disabled', false);
          });        
     });// Click new patient
+
+    $('#patient').select2({
+        ajax: {
+            type: "GET",
+            url: "https://healthassessmentapi.herokuapp.com/api/v1/Patient/search",
+            data: json_data,
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
+            data: function (params) {
+                var query = {
+                    name: params.term                    
+                }
+                // Query parameters will be ?search=[term]&type=public
+                return query;
+            },
+            cache: true,
+            processResults: function (data) {
+                var _data = [];
+                for (var i = 0; i < data.data.length; i++) {
+                    var obj = {};
+                    obj.id = data.data[i].Id;
+                    obj.text = data.data[i].PatientName;
+                    _data.push(obj);
+                }
+                return {
+                    results: _data
+                };
+            }
+        }
+    });
 });
 
