@@ -1,4 +1,16 @@
 ﻿$(function () {
+    // Clear session storage
+    if (typeof (Storage) !== "undefined") {
+        localStorage.setItem("token", "");
+        localStorage.setItem("refreshToken", "");
+        localStorage.setItem("username", "");
+        localStorage.setItem("email", "");       
+        // Code for localStorage/sessionStorage.
+    } else {
+        alert("Sorry Browser not supported")
+    }
+    //End Clear Session storage
+
     var PostCall = function (url, data) { 
         var json_data = JSON.stringify(data);
         return $.ajax({

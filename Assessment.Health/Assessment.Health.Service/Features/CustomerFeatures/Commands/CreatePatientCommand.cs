@@ -36,7 +36,12 @@ namespace Assessment.Health.Service.Features.CustomerFeatures.Commands
                 var patient = new Patient();
                 patient.PatientName = request.PatientName;
                 patient.ContactName = request.ContactName;
-
+                patient.Address = request.Address;
+                patient.ContactTitle = request.ContactTitle;
+                patient.CreatedOn = DateTime.Now;
+                patient.Gender = request.Gender;
+                patient.DateOfBirth = request.DateOfBirth;
+                patient.Country = request.Country;
                 _context.Patients.Add(patient);
                 await _context.SaveChangesAsync();
                 return patient.Id;

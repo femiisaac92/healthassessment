@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Assessment.Health.Service.Features.CustomerFeatures.Queries
 {
-    public class GetAllCustomerQuery : IRequest<IEnumerable<Patient>>
+    public class GetAllPatientQuery : IRequest<IEnumerable<Patient>>
     {
 
-        public class GetAllCustomerQueryHandler : IRequestHandler<GetAllCustomerQuery, IEnumerable<Patient>>
+        public class GetAllPatientQueryHandler : IRequestHandler<GetAllPatientQuery, IEnumerable<Patient>>
         {
             private readonly IApplicationDbContext _context;
-            public GetAllCustomerQueryHandler(IApplicationDbContext context)
+            public GetAllPatientQueryHandler(IApplicationDbContext context)
             {
                 _context = context;
             }
-            public async Task<IEnumerable<Patient>> Handle(GetAllCustomerQuery request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Patient>> Handle(GetAllPatientQuery request, CancellationToken cancellationToken)
             {
                 var customerList = await _context.Patients.ToListAsync();
                 if (customerList == null)

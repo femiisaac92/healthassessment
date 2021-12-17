@@ -27,7 +27,7 @@ namespace Assessment.Health.Controllers
         [Route("")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await Mediator.Send(new GetAllCustomerQuery()));
+            return Ok(await Mediator.Send(new GetAllPatientQuery()));
         }
 
         [HttpGet("{id}")]
