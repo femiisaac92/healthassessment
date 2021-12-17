@@ -19,3 +19,14 @@
 /*list view Css Starts*/
 
 
+.select2 {
+    width:100% !important;
+}
+.select2-search {
+    z-index: 9001 !important;
+}
+div.diagnosis {
+    max-height: 250px;
+    overflow: auto;
+    min-height: 200px;
+}

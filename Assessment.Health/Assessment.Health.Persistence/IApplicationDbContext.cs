@@ -8,6 +8,8 @@ namespace Assessment.Health.Persistence
     {
        
         DbSet<Patient> Patients { get; set; }
+        DbSet<Appointment> Appointments { get; set; }
+        DbSet<PatientDiagnosis> PatientDiagnoses { get; set; }
         Task<int> SaveChangesAsync();
     }
 }

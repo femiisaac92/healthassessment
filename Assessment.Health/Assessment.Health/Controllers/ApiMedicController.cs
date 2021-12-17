@@ -1,6 +1,7 @@
 ﻿using Assessment.Health.Domain.ApiMedic.Models;
 using Assessment.Health.Service.Contract.ApiMedic;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Assessment.Health.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ApiMedicController : ControllerBase
