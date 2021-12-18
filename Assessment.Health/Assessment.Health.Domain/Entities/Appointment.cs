@@ -24,8 +24,8 @@ namespace Assessment.Health.Domain.Entities
         public string Specialisation { get; set; }
         public string SymptomName { get; set; }
         public virtual Patient Patient { get; set; }
-        [JsonIgnore]
-        public virtual ICollection PatientDiagnoses { get; set; }
+        
+        public List<PatientDiagnosis> PatientDiagnoses { get; set; }
 
     }
 }
