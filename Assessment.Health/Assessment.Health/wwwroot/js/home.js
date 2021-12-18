@@ -115,7 +115,8 @@ $(function () {
                 .success(function (data) {
                     $("#temp").val(""); $("#rrate").val(""); $("#prate").val(0);
                     $(".error_message").html("<font color='green'>Save Successfully</font>");
-                    $(this).prop('disabled', false);
+                    setTimeout(function () { document.location.reload() }, 2000);
+                   // $(this).prop('disabled', false);
                 }).fail(function (sender, message, details) {
                     $(".error_message").html("<font color=red>Error! not save</font>");
                     $(this).prop('disabled', false);
@@ -236,20 +237,39 @@ $(function () {
         var ele = '<div class="input-group mb-3"><div class="input-group-prepend"><div class="input-group-text"><input type="radio" name="Specialisation" class="chkspecialisation" value="' + name + '" aria-label="Checkbox for following text input" data-name="' + name + '" required></div></div><input type="text" class="form-control valuespecialisation"  value="' + name + '" aria-label="Text input with checkbox" readonly></div>';
         $(".specialisation").append(ele);
     }
-    
+        
 });
 function PopulateDataTable() {
     GetCall("https://healthassessmentapi.herokuapp.com/api/Service/appointment")
         .success(function (data) {
             if (data != null) {
+                $("#appointmenttable > tbody").html("");
                 $.each(data, function (i, e) {
                     console.log(e);
+                    contructTable(i, e);
                 });
+                $('#appointmenttable').DataTable();
             }
         }).fail(function (sender, message, details) {
             $(".error_message").html("<font color=red>Error! fetching records</font>");
 
         }); 
+}
+function contructTable(i, e) {
+    var Diagnosis = "";
+    if (e.patientDiagnoses)
+        e.patientDiagnoses.map(function (x) { Diagnosis = Diagnosis + "," + x.diagnosisName });
+    var ele = "<tr>";
+    ele += "<td>" + (parseInt(i)+1) + "</td>";
+    ele += "<td>" + e.patient.contactTitle + " "+ e.patient.patientName + "</td>";
+    ele += "<td>" + e.patient.contactName + "</td>";
+    ele += "<td>" + (e.patient.gender==1 ? 'Male' :'Femail') + "</td>";
+    ele += "<td>" + moment(e.patient.dateOfBirth, "YYYY-MM-DD").format('DoMMMM,YYYY') + "/" + moment(e.patient.dateOfBirth, "YYYY-MM-DD").fromNow() + "</td>";
+    ele += "<td>" + moment(e.createdOn, "YYYY-MM-DD").format('DD-MM-YYYY') + "</td>";    
+    ele += "<td>" + e.symptomName + "</td>";
+    ele += "<td>" + Diagnosis + "</td>";
+    ele += "<td>" + e.specialisation +"</td>";
+    $("#appointmenttable > tbody").append(ele);
 }
 $(document).on('select2:open', () => {
     document.querySelector('.select2-search__field').focus();
