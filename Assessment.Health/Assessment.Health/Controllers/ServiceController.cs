@@ -30,5 +30,11 @@ namespace Assessment.Health.Controllers
         {
             return Ok(await Mediator.Send(new GetAllPatientDiagnoses()));
         }
+        [HttpGet]
+        [Route("appointment")]
+        public async Task<IActionResult> GetAllAppointment()
+        {
+            return Ok(await Mediator.Send(new GetAllPatientAppointments()));
+        }
     }
 }

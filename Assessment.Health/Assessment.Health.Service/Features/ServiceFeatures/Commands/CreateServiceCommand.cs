@@ -23,8 +23,8 @@ namespace Assessment.Health.Service.Features.ServiceFeatures.Commands
         public int Height { get; set; }
 
         public int Symptoms { get; set; }
-        public int[] DiagnosisIds { get; set; }
-        public string[] DiagnosisName { get; set; }
+        public List<int> DiagnosisIds { get; set; }
+        public List<string> DiagnosisName { get; set; }
 
 
         public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand, int>
@@ -51,13 +51,13 @@ namespace Assessment.Health.Service.Features.ServiceFeatures.Commands
                 if (appointment.Id > 0 && request.DiagnosisIds!=null)
                 {
                     var diagnoses = new List<PatientDiagnosis>();
-                    for (int i = 0; i < request.DiagnosisIds.Length; i++)
+                    for (int i = 0; i < request.DiagnosisIds.Count; i++)
                     {
                         var id = request.DiagnosisIds[i];
                         var name = request.DiagnosisName[i];
                         var diagnosis = new PatientDiagnosis();
                         diagnosis.AppointmentId = appointment.Id;
-                        diagnosis.Id = id;
+                        diagnosis.DiagnosisId = id;
                         diagnosis.DiagnosisName = name;
                         diagnoses.Add(diagnosis);
                     }

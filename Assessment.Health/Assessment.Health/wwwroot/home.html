@@ -155,7 +155,7 @@
 
                         <div class="form-group">
                             <label for="patient" class="col-form-label col-md-12">Search / Select Patient:</label>
-                            <select class="js-data-example-ajax form-control" id="patient" name="Patient" required></select>
+                            <select class="js-data-example-ajax form-control" id="patient" name="PatientId" required></select>
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -198,13 +198,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Diagnosis Note:</label>
-                                    <textarea class="form-control" id="note" name="note"></textarea>
+                                    <label for="message-text" class="col-form-label">Specialisation:</label>
+                                    <div class="specialisation"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <span class="error_message"></span>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary saveappointment">Save</button>
                     </div>

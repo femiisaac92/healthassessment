@@ -19,7 +19,17 @@ var GetCall = function (url) {
         headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
     });
 }
-
+var PostCallData = function (url, data) {
+    //var json_data = JSON.stringify(data);
+    return $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+    });
+}
 
 
 
@@ -46,17 +56,7 @@ $(function () {
 
     //  populate the table
     setTimeout(function () {
-        GetCall("https://healthassessmentapi.herokuapp.com/api/Service")
-            .success(function (data) {
-                if (data != null) {
-                    $.each(data, function (i, e) {
-                        console.log(e);                       
-                    });
-                }
-            }).fail(function (sender, message, details) {
-                $(".error_message").html("<font color=red>Error! fetching records</font>");
-
-            });       
+        PopulateDataTable();      
     }, 2000);
 
     // Save patient
@@ -94,9 +94,24 @@ $(function () {
     $("form").submit(function (e) {
         e.preventDefault();
         if ($(this).attr("id") == "appointment-form") {
-            var data = $(this).serialize();
+            var data = {};
+            $(this).serializeArray().map(function (x) { data[x.name] = x.value; }); 
+            var SymptomName = $('#symptoms').find(':selected').text();
+            var diagnosisId = [];
+            var diagnosisName = [];
+            $(".chkdiagnosis:checked").each(function (i, e) {
+                diagnosisId[i] = $(e).val();
+                diagnosisName[i] = $(e).data("name");
+            });                        
+            if (diagnosisId.length <= 0) {
+                alert("No diagnosis selected")
+                return;//stop here
+            }          
+            data.DiagnosisIds = diagnosisId;
+            data.DiagnosisName = diagnosisName;
+            data.SymptomName = SymptomName;
             console.log(data);
-            PostCall("https://healthassessmentapi.herokuapp.com/api/Service/", data)
+            PostCall("https://localhost:44356/api/Service/", data)
                 .success(function (data) {
                     $("#temp").val(""); $("#rrate").val(""); $("#prate").val(0);
                     $(".error_message").html("<font color='green'>Save Successfully</font>");
@@ -187,13 +202,24 @@ $(function () {
             var patientSplit = patient.split("/");
             var gender = patientSplit[2];
             var year = patientSplit[1];
+            var specialisations = [];
             GetCall("https://healthassessmentapi.herokuapp.com/api/ApiMedic/Diagnosis/" + value + "/" + gender + "/" + year)
                 .success(function (data) {
                     if (data.data != null) {
+                        $(".diagnosis").html("");
+                        $(".specialisation").append("");
                         $.each(data.data, function (i, e) {
-                            console.log(e.issue);
-                            CreateDiagnosisList(e.issue.id, e.issue.name, false);
+                            console.log(e.specialisation);
+                            CreateDiagnosisList(e.issue.id, "(" + e.issue.icd + ")" + e.issue.name, i);
+                            $.each(e.specialisation, function (y, f) {                                
+                                specialisations[f.id] = f.name;
+                            });                            
                         });
+                        $.each(specialisations, function (x, z) {
+                            if (specialisations[x] != null && specialisations[x] != 'undefined')                               
+                                CreateSpecialtyList(x, z, x)
+                            console.log(z);
+                        });     
                     }
                 }).fail(function (sender, message, details) {
                     $(".error_message").html("<font color=red>Error! not save</font>");
@@ -202,14 +228,30 @@ $(function () {
         }
     });
 
-    function CreateDiagnosisList(id, name, clear = false) {
-        var ele = '<div class="input-group mb-3"><div class="input-group-prepend"><div class="input-group-text"><input type="checkbox" name="DiagnosisIds[]" class="chkdiagnosis" value="' + id +'" aria-label="Checkbox for following text input"></div></div><input type="text" class="form-control valuediagnosis" name="DiagnosisName[]" value="' + name + '" aria-label="Text input with checkbox" readonly></div>';
-        if (clear === true)
-            $(".diagnosis").html("");
+    function CreateDiagnosisList(id, name,i) {
+        var ele = '<div class="input-group mb-3"><div class="input-group-prepend"><div class="input-group-text"><input type="checkbox"  class="chkdiagnosis" value="' + id +'" aria-label="Checkbox for following text input" data-name="'+ name +'"></div></div><input type="text" class="form-control valuediagnosis"  value="' + name + '" aria-label="Text input with checkbox" readonly></div>';              
         $(".diagnosis").append(ele);
     }
-
+    function CreateSpecialtyList(id, name, i) {
+        var ele = '<div class="input-group mb-3"><div class="input-group-prepend"><div class="input-group-text"><input type="radio" name="Specialisation" class="chkspecialisation" value="' + name + '" aria-label="Checkbox for following text input" data-name="' + name + '" required></div></div><input type="text" class="form-control valuespecialisation"  value="' + name + '" aria-label="Text input with checkbox" readonly></div>';
+        $(".specialisation").append(ele);
+    }
+    
 });
+function PopulateDataTable() {
+    GetCall("https://healthassessmentapi.herokuapp.com/api/Service/appointment")
+        .success(function (data) {
+            if (data != null) {
+                $.each(data, function (i, e) {
+                    console.log(e);
+                });
+            }
+        }).fail(function (sender, message, details) {
+            $(".error_message").html("<font color=red>Error! fetching records</font>");
+
+        }); 
+}
 $(document).on('select2:open', () => {
     document.querySelector('.select2-search__field').focus();
 });
+setInterval(function () { $(".error_message").html(""); }, 60000);

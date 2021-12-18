@@ -30,3 +30,8 @@ div.diagnosis {
     overflow: auto;
     min-height: 200px;
 }
+div.specialisation {
+    max-height: 200px;
+    overflow: auto;
+    min-height: 200px;
+}

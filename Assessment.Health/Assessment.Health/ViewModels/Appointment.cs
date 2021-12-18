@@ -18,6 +18,10 @@ namespace Assessment.Health.ViewModels
         public int Height { get; set; }
 
         public int Symptoms { get; set; }
+
+        public string Specialisation { get; set; }
+
+        public string SymptomName { get; set; }
         public int[] DiagnosisIds { get; set; }
         public string[] diagnosisname { get; set; }
 

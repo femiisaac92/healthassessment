@@ -18,8 +18,11 @@ namespace Assessment.Health.Domain.Entities
         public int Weight { get; set; }
         public int Height { get; set; }
 
-        public int Symptoms { get; set; }    
+        public int Symptoms { get; set; }
+        public string Specialisation { get; set; }
+        public string SymptomName { get; set; }
         public virtual Patient Patient { get; set; }
+        public ICollection<PatientDiagnosis> patientDiagnoses { get; set; }
 
     }
 }
