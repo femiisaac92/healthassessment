@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Assessment.Health.Domain.Entities
@@ -22,7 +23,8 @@ namespace Assessment.Health.Domain.Entities
         public string Specialisation { get; set; }
         public string SymptomName { get; set; }
         public virtual Patient Patient { get; set; }
-        public ICollection<PatientDiagnosis> patientDiagnoses { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<PatientDiagnosis> patientDiagnoses { get; set; }
 
     }
 }

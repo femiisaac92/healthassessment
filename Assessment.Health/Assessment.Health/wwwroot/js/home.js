@@ -111,7 +111,7 @@ $(function () {
             data.DiagnosisName = diagnosisName;
             data.SymptomName = SymptomName;
             console.log(data);
-            PostCall("https://localhost:44356/api/Service/", data)
+            PostCall("https://healthassessmentapi.herokuapp.com/api/Service/", data)
                 .success(function (data) {
                     $("#temp").val(""); $("#rrate").val(""); $("#prate").val(0);
                     $(".error_message").html("<font color='green'>Save Successfully</font>");

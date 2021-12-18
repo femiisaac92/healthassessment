@@ -23,6 +23,8 @@ namespace Assessment.Health.Service.Features.ServiceFeatures.Commands
         public int Height { get; set; }
 
         public int Symptoms { get; set; }
+        public string Specialisation { get; set; }
+        public string SymptomName { get; set; }
         public List<int> DiagnosisIds { get; set; }
         public List<string> DiagnosisName { get; set; }
 
@@ -46,6 +48,8 @@ namespace Assessment.Health.Service.Features.ServiceFeatures.Commands
                 appointment.Weight = request.Weight;
                 appointment.Temp = request.Temp;
                 appointment.Symptoms = request.Symptoms;
+                appointment.SymptomName = request.SymptomName;
+                appointment.Specialisation = request.Specialisation;
                 _context.Appointments.Add(appointment);
                 await _context.SaveChangesAsync();
                 if (appointment.Id > 0 && request.DiagnosisIds!=null)
