@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace Assessment.Health.Domain.Entities
         public string SymptomName { get; set; }
         public virtual Patient Patient { get; set; }
         [JsonIgnore]
-        public virtual ICollection<PatientDiagnosis> patientDiagnoses { get; set; }
+        public virtual ICollection PatientDiagnoses { get; set; }
 
     }
 }
