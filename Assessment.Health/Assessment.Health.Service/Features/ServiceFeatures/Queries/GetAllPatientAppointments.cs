@@ -21,7 +21,7 @@ namespace Assessment.Health.Service.Features.ServiceFeatures.Queries
             public async Task<IEnumerable<Appointment>> Handle(GetAllPatientAppointments request, CancellationToken cancellationToken)
             {
                 var list = await _context.Appointments
-                                .Include(e=>e.patientDiagnoses)
+                                //.Include(e=>e.patientDiagnoses)
                                 .ToListAsync();
                 if (list == null)
                 {
