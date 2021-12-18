@@ -12,7 +12,7 @@ namespace Assessment.Health.Domain.Entities
         public int AppointmentId { get; set; }
         public int DiagnosisId { get; set; }
         public string DiagnosisName { get; set; }
-       // [JsonIgnore]
-       // public virtual Appointment Appointment { get; set; }
+        [JsonIgnore]
+        public virtual Appointment Appointment { get; set; }
     }
 }
